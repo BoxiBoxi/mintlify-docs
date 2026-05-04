@@ -1,0 +1,189 @@
+---
+title: "Instagram"
+description: "Hướng dẫn từng bước cấu hình Instagram để YupVid có thể đăng video."
+---
+
+**Instagram** dùng để đăng video lên tài khoản Instagram được cấp quyền.
+
+Nếu tài khoản của bạn chưa có kết nối Instagram sẵn, bạn cần tự cấu hình app trong Meta for Developers. Sau khi cấu hình xong, YupVid có thể dùng quyền Instagram của bạn để đăng video sau khi render.
+
+## Bạn cần chuẩn bị gì
+
+Trước khi bắt đầu, hãy chuẩn bị:
+
+- Một tài khoản Meta/Facebook.
+- Một tài khoản Instagram Professional, tức Business hoặc Creator.
+- Quyền quản lý tài khoản Instagram cần đăng.
+- Nếu dùng Instagram API với Facebook Login, Instagram Professional account cần được liên kết với một Facebook Page.
+- Quyền tạo app trong Meta for Developers.
+- Callback URL của YupVid:
+
+```text
+https://yupvid.com/api/platforms/instagram/callback
+```
+
+Theo tài liệu Instagram API của Meta, API với Facebook Login dùng cho Instagram Professional accounts, không dùng cho tài khoản Instagram cá nhân thông thường.
+
+## Bước 1: Kiểm tra loại tài khoản Instagram
+
+1. Mở Instagram.
+2. Vào phần cài đặt tài khoản.
+3. Kiểm tra tài khoản đang là **Business** hoặc **Creator**.
+4. Nếu đang là tài khoản cá nhân, hãy chuyển sang Professional account trước.
+
+YupVid cần quyền publish qua Instagram API, nên tài khoản cá nhân thường sẽ không đủ điều kiện.
+
+## Bước 2: Liên kết Instagram với Facebook Page
+
+Nếu bạn dùng luồng Instagram API với Facebook Login, hãy đảm bảo Instagram Professional account đã liên kết với Facebook Page.
+
+1. Mở Facebook Page cần dùng.
+2. Vào phần settings của Page.
+3. Tìm mục liên kết Instagram.
+4. Kết nối đúng tài khoản Instagram.
+5. Đảm bảo tài khoản Facebook của bạn có quyền quản lý Page đó.
+
+Nếu Instagram chưa liên kết Page, quá trình cấp quyền có thể không trả về tài khoản Instagram để YupVid sử dụng.
+
+## Bước 3: Tạo app trong Meta for Developers
+
+1. Mở Meta for Developers:
+
+```text
+https://developers.facebook.com/apps/
+```
+
+2. Bấm **Create App**.
+3. Chọn loại app phù hợp với nhu cầu đăng nội dung.
+4. Nhập tên app, ví dụ:
+
+```text
+YupVid Instagram Publishing
+```
+
+5. Hoàn tất tạo app.
+
+App này sẽ chứa App ID, App Secret, quyền đăng Instagram và cấu hình OAuth callback.
+
+## Bước 4: Thêm sản phẩm hoặc use case liên quan Instagram
+
+Trong dashboard app Meta:
+
+1. Tìm mục **Add product** hoặc **Use cases**.
+2. Thêm cấu hình liên quan Instagram.
+3. Nếu dùng Facebook Login, thêm **Facebook Login**.
+4. Nếu có mục Instagram API setup, mở phần setup theo hướng dẫn của Meta.
+
+Giao diện Meta có thể thay đổi theo loại app và thời điểm. Mục tiêu của bước này là bật luồng đăng nhập/cấp quyền để app có thể xin quyền Instagram.
+
+## Bước 5: Cấu hình OAuth redirect URL
+
+Trong phần Facebook Login hoặc OAuth settings, tìm mục **Valid OAuth Redirect URIs**.
+
+Thêm callback URL của YupVid:
+
+```text
+https://yupvid.com/api/platforms/instagram/callback
+```
+
+Sau đó bấm **Save changes**.
+
+Callback URL phải khớp chính xác. Nếu sai một ký tự, Meta có thể báo lỗi redirect URI hoặc không quay lại YupVid sau khi đăng nhập.
+
+## Bước 6: Cấu hình quyền cần thiết
+
+Với luồng Instagram API with Facebook Login, các quyền thường cần cho publishing gồm:
+
+- `pages_show_list`
+- `instagram_basic`
+- `instagram_content_publish`
+- `pages_read_engagement`
+
+Một số workflow cũng có thể cần thêm quyền khác tùy tính năng.
+
+Theo Meta Postman collection cho Instagram API with Facebook Login, quyền publish yêu cầu Instagram Professional account và các permission phù hợp. Hãy chỉ xin những quyền bạn thật sự cần.
+
+## Bước 7: Cấu hình App Review nếu cần
+
+Khi app còn ở chế độ development/testing, bạn có thể chỉ dùng với admin, developer, tester hoặc tài khoản được thêm vào app.
+
+Nếu muốn dùng app với tài khoản bên ngoài, bạn có thể cần gửi **App Review** để Meta duyệt các permission như `instagram_content_publish`.
+
+1. Vào phần **App Review**.
+2. Chọn permission cần dùng.
+3. Cung cấp mô tả cách YupVid dùng quyền đó.
+4. Thêm video hoặc hướng dẫn test nếu Meta yêu cầu.
+5. Gửi review.
+
+Nếu chưa review, hãy dùng tài khoản test hoặc tài khoản có vai trò trong app để kiểm tra trước.
+
+## Bước 8: Lấy App ID và App Secret
+
+Trong dashboard app Meta:
+
+1. Mở **Settings**.
+2. Chọn **Basic**.
+3. Copy **App ID**.
+4. Hiển thị và copy **App Secret**.
+
+Không chia sẻ **App Secret** công khai. Đây là thông tin nhạy cảm của app.
+
+## Bước 9: Nhập credentials vào YupVid
+
+1. Quay lại YupVid.
+2. Mở **Platforms**.
+3. Chọn **Instagram**.
+4. Nhập **App ID**.
+5. Nhập **App Secret**.
+6. Lưu cấu hình.
+7. Bấm kết nối Instagram.
+8. Đăng nhập Meta/Facebook nếu được yêu cầu.
+9. Chọn Page và Instagram account cần dùng.
+10. Đồng ý cấp quyền.
+
+Sau khi kết nối thành công, Instagram sẽ xuất hiện trong danh sách tài khoản có thể đăng video.
+
+## Bước 10: Đăng video lên Instagram
+
+Sau khi Instagram đã kết nối, bạn có thể chọn tài khoản Instagram trong:
+
+- **Publish to accounts** của Bulk Create.
+- **Publish to accounts** của Article to Video.
+- **Publish to platforms** trong Project.
+
+Khi video đã render xong, bấm **Upload** ở tài khoản Instagram để gửi video lên Instagram.
+
+## Cách Instagram API publish video
+
+Ở mức API, quy trình publish thường gồm 2 bước:
+
+1. Tạo media container cho video.
+2. Publish container đó bằng endpoint `media_publish`.
+
+Với Reels, container video cần dùng media type phù hợp cho Reels. YupVid xử lý phần kỹ thuật này sau khi bạn kết nối đúng tài khoản và cấp quyền.
+
+## Lỗi thường gặp
+
+| Lỗi | Cách xử lý |
+| --- | --- |
+| Không thấy tài khoản Instagram | Kiểm tra tài khoản có phải Business/Creator không và đã liên kết Facebook Page chưa |
+| Redirect URI mismatch | Kiểm tra callback URL có đúng `https://yupvid.com/api/platforms/instagram/callback` không |
+| Không có quyền publish | Kiểm tra permission `instagram_content_publish` và App Review |
+| Access blocked | Kiểm tra app đang ở Development hay Live, và tài khoản có nằm trong tester/admin không |
+| Đăng video thất bại | Kiểm tra video đã render xong, tài khoản đã kết nối và quyền publish còn hợp lệ |
+
+## Lưu ý quan trọng
+
+- Instagram API không dùng cho tài khoản cá nhân thông thường.
+- Hãy dùng Instagram Professional account, tức Business hoặc Creator.
+- Nếu dùng Facebook Login, hãy đảm bảo tài khoản Instagram đã liên kết với Facebook Page.
+- App có thể cần App Review trước khi dùng với nhiều người dùng thật.
+- Callback URL phải nhập chính xác.
+
+## Tài liệu tham khảo
+
+- [Instagram API with Facebook Login](https://www.postman.com/meta/instagram/folder/3uqmcgi/instagram-api-with-facebook-login)
+- [Instagram API documentation](https://www.postman.com/meta/workspace/instagram/documentation/23987686-9386f468-7714-490f-9bfc-9442db5c8f00)
+- [Publish the container](https://www.postman.com/meta/instagram/request/yi6ro4h/publish-the-container)
+- [Publish the container (Reels)](https://www.postman.com/meta/instagram/request/23987686-f1c081c0-be35-4ffa-84bb-2c1726860c2b)
+- [Meta for Developers Apps](https://developers.facebook.com/apps/)

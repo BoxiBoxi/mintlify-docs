@@ -1,12 +1,12 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "sequoia",
-  "name": "Knowledge base",
-  "description": "Onboarding, employee handbook, HR guides, IT help, company policies, and department runbooks.",
+  "theme": "mint",
+  "name": "YupVid Help Center",
+  "description": "Guides for creating AI short videos from articles, scripts, URLs, and ideas with YupVid.",
   "colors": {
-    "primary": "#166E3F",
-    "light": "#26BD6C",
-    "dark": "#166E3F"
+    "primary": "#2563EB",
+    "light": "#38BDF8",
+    "dark": "#1D4ED8"
   },
   "favicon": "/favicon.ico",
   "icons": {
@@ -16,137 +16,91 @@
     "timestamp": true
   },
   "contextual": {
-    "options": ["copy", "view", "assistant", "mcp", "add-mcp"]
+    "options": ["copy", "view", "assistant"]
   },
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "Onboarding",
+        "language": "en",
+        "default": true,
         "groups": [
           {
-            "group": "Welcome",
-            "pages": ["index"]
-          },
-          {
-            "group": "Your first days",
+            "group": "Start",
+            "icon": "rocket",
             "pages": [
-              "onboarding/first-day",
-              "onboarding/first-week",
-              "onboarding/meet-the-team"
+              "index"
             ]
           },
           {
-            "group": "Tools & access",
+            "group": "Create video",
+            "icon": "clapperboard",
             "pages": [
-              "onboarding/tools/laptop-setup",
-              "onboarding/tools/account-access",
-              "onboarding/tools/vpn-setup"
+              "create/studio",
+              "create/bulk-create",
+              "create/article-to-video"
+            ]
+          },
+          {
+            "group": "Projects",
+            "icon": "folder-kanban",
+            "pages": [
+              "projects/manage-projects"
+            ]
+          },
+          {
+            "group": "Platform connections",
+            "icon": "share-2",
+            "pages": [
+              "platforms/facebook",
+              "platforms/threads",
+              "platforms/linkedin",
+              "platforms/x-twitter",
+              "platforms/telegram-bot",
+              "platforms/youtube-developer",
+              "platforms/instagram-developer",
+              "platforms/tiktok"
             ]
           }
         ]
       },
       {
-        "tab": "HR & People",
+        "language": "vi",
         "groups": [
           {
-            "group": "Overview",
-            "pages": ["hr-people/index"]
-          },
-          {
-            "group": "Benefits & time off",
+            "group": "Bắt đầu",
+            "icon": "rocket",
             "pages": [
-              "hr-people/benefits",
-              "hr-people/time-off"
+              "vi/index"
             ]
           },
           {
-            "group": "Growth & pay",
+            "group": "Tạo video",
+            "icon": "clapperboard",
             "pages": [
-              "hr-people/performance-reviews",
-              "hr-people/compensation/index",
-              "hr-people/compensation/salary-bands",
-              "hr-people/compensation/equity-overview"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "IT & Security",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": ["it-security/index"]
-          },
-          {
-            "group": "Access & devices",
-            "pages": [
-              "it-security/access-requests",
-              "it-security/device-policy"
+              "vi/create/studio",
+              "vi/create/bulk-create",
+              "vi/create/article-to-video"
             ]
           },
           {
-            "group": "Security training",
+            "group": "Quản lý dự án",
+            "icon": "folder-kanban",
             "pages": [
-              "it-security/security-training/index",
-              "it-security/security-training/phishing",
-              "it-security/security-training/data-handling"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Policies",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": ["policies/index"]
-          },
-          {
-            "group": "Conduct & spend",
-            "pages": [
-              "policies/code-of-conduct",
-              "policies/expense-reimbursement",
-              "policies/travel-policy"
+              "vi/projects/manage-projects"
             ]
           },
           {
-            "group": "Remote work",
+            "group": "Kết nối platform",
+            "icon": "share-2",
             "pages": [
-              "policies/remote-work/index",
-              "policies/remote-work/home-office-setup",
-              "policies/remote-work/time-zones"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Engineering",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": ["engineering/index"]
-          },
-          {
-            "group": "Setup & deployment",
-            "pages": [
-              "engineering/dev-setup",
-              "engineering/deployment"
-            ]
-          },
-          {
-            "group": "Incident response",
-            "pages": [
-              "engineering/incident-response/index",
-              "engineering/incident-response/on-call",
-              "engineering/incident-response/postmortem"
-            ]
-          },
-          {
-            "group": "Architecture",
-            "pages": [
-              "engineering/architecture/index",
-              "engineering/architecture/services-overview",
-              "engineering/architecture/data-models"
+              "vi/platforms/facebook",
+              "vi/platforms/threads",
+              "vi/platforms/linkedin",
+              "vi/platforms/x-twitter",
+              "vi/platforms/telegram-bot",
+              "vi/platforms/youtube-developer",
+              "vi/platforms/instagram-developer",
+              "vi/platforms/tiktok"
             ]
           }
         ]
@@ -158,22 +112,16 @@
     "dark": "/logo/dark.svg"
   },
   "navbar": {
-    "links": [
-      {
-        "label": "Submit IT ticket",
-        "href": "/it-security/access-requests"
-      }
-    ],
     "primary": {
       "type": "button",
-      "label": "Employee portal",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Yupvid.com",
+      "href": "https://yupvid.com"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/yourcompany",
-      "linkedin": "https://linkedin.com/company/yourcompany"
+      "x": "https://x.com/yupvid",
+      "linkedin": "https://linkedin.com/company/yupvid"
     }
   }
 }

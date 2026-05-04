@@ -1,0 +1,176 @@
+---
+title: "Instagram Developer"
+description: "Step-by-step setup for connecting Instagram so YupVid can publish videos."
+---
+
+If your account does not have a ready Instagram connection, you need to configure an app in Meta for Developers. After setup, YupVid can use your Instagram permission to publish videos after rendering.
+
+This guide is for users who need to set up Instagram publishing themselves.
+
+## What you need
+
+Before you start, prepare:
+
+- An Instagram Professional account, either Business or Creator.
+- A Facebook Page linked to that Instagram account.
+- Access to Meta for Developers.
+- Permission to create and configure a Meta app.
+- YupVid callback URL:
+
+```text
+https://yupvid.com/api/platforms/instagram/callback
+```
+
+## Step 1: Check your Instagram account type
+
+Instagram publishing through Meta APIs requires an eligible Instagram Professional account.
+
+1. Open Instagram.
+2. Go to account settings.
+3. Confirm that the account is a **Business** or **Creator** account.
+4. If it is still a personal account, switch it to a Professional account.
+
+A personal Instagram account may not be eligible for the publishing permissions YupVid needs.
+
+## Step 2: Link Instagram to a Facebook Page
+
+1. Open Facebook.
+2. Go to the Facebook Page you manage.
+3. Open **Page settings**.
+4. Find the Instagram connection section.
+5. Connect the Instagram account to the Page.
+
+If Instagram is not linked to a Page, Meta may not return the Instagram account during the connection flow.
+
+## Step 3: Create a Meta app
+
+1. Open Meta for Developers:
+
+```text
+https://developers.facebook.com/apps/
+```
+
+2. Click **Create App**.
+3. Choose the app type or use case that supports Instagram publishing.
+4. Enter an app name, such as:
+
+```text
+YupVid Instagram Publishing
+```
+
+5. Enter your contact email.
+6. Create the app.
+
+## Step 4: Add the Instagram product or use case
+
+Inside the Meta app, add the product or use case required for Instagram publishing.
+
+Depending on Meta's current dashboard, this may appear as:
+
+- **Instagram**
+- **Instagram API**
+- **Instagram Graph API**
+- **Instagram API with Facebook Login**
+
+Use the option that supports publishing media to Instagram professional accounts.
+
+## Step 5: Configure the OAuth redirect URL
+
+Add YupVid's callback URL to the OAuth or Facebook Login redirect settings:
+
+```text
+https://yupvid.com/api/platforms/instagram/callback
+```
+
+The callback URL must match exactly. If one character is wrong, Meta may show a redirect URI error or fail to return to YupVid after login.
+
+## Step 6: Configure the required permissions
+
+For Instagram publishing, the app may need permissions such as:
+
+- `instagram_basic`
+- `instagram_content_publish`
+- `pages_show_list`
+- `pages_read_engagement`
+
+The exact permission list can change based on Meta's current product setup and the login method used.
+
+Use the minimum permissions needed to let YupVid find the connected Instagram account and publish video content.
+
+## Step 7: Complete App Review if required
+
+If the app is only used by developers, admins, or test users, you may be able to test it without full public review.
+
+If the app needs to be used by other users, submit the required permissions for **App Review**.
+
+For each permission, provide:
+
+- A clear explanation of why YupVid needs the permission.
+- Screen recordings or screenshots if Meta asks for them.
+- Test instructions for Meta reviewers.
+
+## Step 8: Copy the App ID and App Secret
+
+In the Meta app dashboard, open **Settings** and copy:
+
+- **App ID**
+- **App Secret**
+
+Do not share the **App Secret** publicly. It is sensitive app information.
+
+## Step 9: Enter the credentials in YupVid
+
+1. Return to YupVid.
+2. Open **Platforms**.
+3. Select **Instagram**.
+4. Enter the **App ID**.
+5. Enter the **App Secret**.
+6. Save the configuration.
+7. Click to connect Instagram.
+8. Sign in with the Facebook account that manages the linked Page.
+9. Approve the requested permissions.
+
+After connection succeeds, Instagram should show as **Configured** or show the connected account.
+
+## Step 10: Publish a video to Instagram
+
+After Instagram is connected, you can choose the Instagram account in:
+
+- **Publish to accounts** in **Bulk Create**.
+- **Publish to accounts** in **Article to Video**.
+- **Publish to platforms** in **Projects**.
+
+When a video has finished rendering, click **Upload** next to the Instagram account.
+
+## How Instagram publishing works
+
+Instagram publishing through Meta APIs usually happens in two phases:
+
+1. Create a media container for the video.
+2. Publish the container.
+
+For Reels, the video container must use the correct media type. YupVid handles the technical publishing flow after the correct account and permissions are connected.
+
+## Common issues
+
+| Issue | How to fix it |
+| --- | --- |
+| Instagram account does not appear | Check that Instagram is Professional and linked to a Facebook Page |
+| Redirect URI error | Check that the callback is exactly `https://yupvid.com/api/platforms/instagram/callback` |
+| Permission denied | Review the app permissions and App Review status |
+| Cannot publish | Check that the account is eligible for Instagram publishing |
+| Wrong account connected | Reconnect using the Facebook account that manages the correct Page |
+
+## Important notes
+
+- Meta may change dashboard labels and permission flows over time.
+- Use the same Facebook account that manages the Page linked to Instagram.
+- Keep the App Secret private.
+- Test the connection with one account before using it in production workflows.
+
+## References
+
+- [Meta apps dashboard](https://developers.facebook.com/apps/)
+- [Instagram API with Facebook Login](https://www.postman.com/meta/instagram/folder/3uqmcgi/instagram-api-with-facebook-login)
+- [Instagram API documentation](https://www.postman.com/meta/workspace/instagram/documentation/23987686-9386f468-7714-490f-9bfc-9442db5c8f00)
+- [Publish the container](https://www.postman.com/meta/instagram/request/yi6ro4h/publish-the-container)

@@ -1,0 +1,179 @@
+---
+title: "YouTube Short"
+description: "Step-by-step setup for connecting YouTube so YupVid can upload shorts to your channel."
+---
+
+**YouTube Short** lets YupVid upload short videos to a YouTube channel.
+
+If your account does not have a ready YouTube connection, you need to configure a developer app in Google Cloud. After setup, YupVid can use your YouTube permission to upload videos after rendering.
+
+## What you need
+
+Before you start, prepare:
+
+- A Google account that can manage the YouTube channel.
+- Permission to create a Google Cloud project.
+- Permission to enable APIs in the Google Cloud project.
+- Permission to create an OAuth client ID.
+- YupVid callback URL:
+
+```text
+https://yupvid.com/api/platforms/youtube/callback
+```
+
+## Step 1: Create a Google Cloud project
+
+1. Open Google Cloud Console:
+
+```text
+https://console.cloud.google.com
+```
+
+2. Click the project selector in the top bar.
+3. Choose **New Project**.
+4. Enter a project name, such as `YupVid YouTube Upload`.
+5. Click **Create**.
+6. Wait for Google to create the project.
+7. Select the new project before continuing.
+
+This project will contain the API, OAuth app, and credentials used for the YupVid YouTube connection.
+
+## Step 2: Enable YouTube Data API v3
+
+1. In Google Cloud Console, open **APIs & Services**.
+2. Select **Library**.
+3. Search for:
+
+```text
+YouTube Data API v3
+```
+
+4. Open the API page.
+5. Click **Enable**.
+
+YupVid needs YouTube Data API v3 to upload videos to your channel.
+
+## Step 3: Configure the OAuth consent screen
+
+1. Open **APIs & Services**.
+2. Select **OAuth consent screen** or **Google Auth Platform**.
+3. Choose the app type that fits your use case.
+4. Enter the required app information:
+   - App name
+   - User support email
+   - Developer contact email
+5. Save the configuration.
+
+The OAuth consent screen is what Google shows when you grant YupVid permission to connect YouTube.
+
+## Step 4: Add the YouTube upload scope
+
+In the scopes section, add the YouTube upload permission:
+
+```text
+https://www.googleapis.com/auth/youtube.upload
+```
+
+This scope allows the app to upload videos to your YouTube channel after you approve access.
+
+YouTube Data API also supports broader scopes such as `https://www.googleapis.com/auth/youtube`, but use the upload scope when possible.
+
+## Step 5: Add a test user if the app is in Testing
+
+If the OAuth app is in **Testing**, add your Google email as a test user.
+
+1. Open **Audience** or **Test users**.
+2. Click **Add users**.
+3. Add the Google email that manages the YouTube channel.
+4. Save the changes.
+
+If you do not add the test user, Google may block the connection during testing.
+
+## Step 6: Create an OAuth client ID
+
+1. Open **APIs & Services**.
+2. Select **Credentials** or **Google Auth Platform > Clients**.
+3. Click **Create Credentials** or **Create Client**.
+4. Choose **OAuth client ID**.
+5. Set the application type to **Web application**.
+6. Enter a name, such as:
+
+```text
+YupVid YouTube Web Client
+```
+
+## Step 7: Add the authorized redirect URI
+
+In **Authorized redirect URIs**, click **Add URI** and enter:
+
+```text
+https://yupvid.com/api/platforms/youtube/callback
+```
+
+Then click **Create** or **Save**.
+
+The redirect URI must match YupVid's callback URL exactly. If it does not match, the YouTube connection step will fail.
+
+## Step 8: Copy the Client ID and Client Secret
+
+After you create the OAuth client, Google shows:
+
+- **Client ID**
+- **Client Secret**
+
+Copy both values so you can enter them in YupVid.
+
+Do not share the **Client Secret** publicly. It is sensitive app information.
+
+## Step 9: Enter the credentials in YupVid
+
+1. Return to YupVid.
+2. Open **Platforms**.
+3. Select **YouTube Short**.
+4. Enter the **Client ID**.
+5. Enter the **Client Secret**.
+6. Save the configuration.
+7. Click to connect YouTube.
+8. Select the Google account that manages the YouTube channel.
+9. Approve the upload permission.
+
+After the connection succeeds, YouTube should show as **Configured** or show the number of connected accounts.
+
+## Step 10: Upload a video to YouTube
+
+After YouTube is connected, you can choose the YouTube account in:
+
+- **Publish to accounts** in **Bulk Create**.
+- **Publish to accounts** in **Article to Video**.
+- **Publish to platforms** in **Projects**.
+
+When a video has finished rendering, click **Upload** next to the YouTube account to send it to the channel.
+
+## Private video note
+
+Videos uploaded through a YouTube API project that has not been audited may be limited to **private**.
+
+After YupVid uploads a video to YouTube, open **YouTube Studio** to review it and publish it publicly if needed.
+
+## Quota note
+
+The YouTube Data API upload method `videos.insert` has a quota cost of 100 units per call.
+
+If you upload many videos, monitor quota usage in the Google Cloud project.
+
+## Common issues
+
+| Issue | How to fix it |
+| --- | --- |
+| Redirect URI mismatch | Check that the callback is exactly `https://yupvid.com/api/platforms/youtube/callback` |
+| Access blocked | Check the OAuth consent screen and test users |
+| API not enabled | Enable **YouTube Data API v3** in the correct project |
+| Channel does not appear | Check that the Google account can manage the channel |
+| Upload succeeds but video is not public | Open **YouTube Studio** and publish the private video |
+
+## References
+
+- [Create access credentials](https://developers.google.com/workspace/guides/create-credentials)
+- [Using OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server)
+- [YouTube Data API videos.insert](https://developers.google.com/youtube/v3/docs/videos/insert)
+- [Upload a Video](https://developers.google.com/youtube/v3/guides/uploading_a_video)

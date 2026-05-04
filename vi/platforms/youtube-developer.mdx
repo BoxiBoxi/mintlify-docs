@@ -1,0 +1,179 @@
+---
+title: "YouTube Short"
+description: "Hướng dẫn từng bước cấu hình YouTube để YupVid có thể upload video short lên channel."
+---
+
+**YouTube Short** dùng để đăng video short lên YouTube channel.
+
+Nếu tài khoản của bạn chưa có kết nối YouTube sẵn, bạn cần tự cấu hình developer app trong Google Cloud. Sau khi cấu hình xong, YupVid có thể dùng quyền YouTube của bạn để upload video sau khi render.
+
+## Bạn cần chuẩn bị gì
+
+Trước khi bắt đầu, hãy chuẩn bị:
+
+- Một tài khoản Google có quyền quản lý YouTube channel.
+- Quyền tạo project trong Google Cloud.
+- Quyền bật API trong Google Cloud project.
+- Quyền tạo OAuth client ID.
+- Callback URL của YupVid:
+
+```text
+https://yupvid.com/api/platforms/youtube/callback
+```
+
+## Bước 1: Tạo Google Cloud project
+
+1. Mở Google Cloud Console:
+
+```text
+https://console.cloud.google.com
+```
+
+2. Bấm chọn project ở thanh trên cùng.
+3. Chọn **New Project**.
+4. Nhập tên project, ví dụ `YupVid YouTube Upload`.
+5. Bấm **Create**.
+6. Chờ Google tạo project xong.
+7. Chọn đúng project vừa tạo trước khi làm các bước tiếp theo.
+
+Project này sẽ chứa API, OAuth app và credentials dùng để YupVid kết nối YouTube.
+
+## Bước 2: Bật YouTube Data API v3
+
+1. Trong Google Cloud Console, mở **APIs & Services**.
+2. Chọn **Library**.
+3. Tìm:
+
+```text
+YouTube Data API v3
+```
+
+4. Mở trang API.
+5. Bấm **Enable**.
+
+YupVid cần YouTube Data API để upload video lên channel. Theo tài liệu Google Cloud, API phải được bật trong project trước khi app có thể dùng API đó.
+
+## Bước 3: Cấu hình OAuth consent screen
+
+1. Mở **APIs & Services**.
+2. Chọn **OAuth consent screen** hoặc **Google Auth Platform**.
+3. Chọn loại app phù hợp.
+4. Nhập thông tin app:
+   - App name
+   - User support email
+   - Developer contact email
+5. Lưu cấu hình.
+
+OAuth consent screen là màn hình Google hiển thị khi bạn cấp quyền cho YupVid kết nối YouTube.
+
+## Bước 4: Thêm scope upload YouTube
+
+Trong phần scope, thêm quyền upload video YouTube:
+
+```text
+https://www.googleapis.com/auth/youtube.upload
+```
+
+Scope này cho phép app upload video lên YouTube channel sau khi bạn đồng ý cấp quyền.
+
+YouTube Data API cũng hỗ trợ các scope rộng hơn như `https://www.googleapis.com/auth/youtube`, nhưng với nhu cầu upload video, nên dùng scope upload khi có thể.
+
+## Bước 5: Thêm test user nếu app đang ở Testing
+
+Nếu OAuth app đang ở trạng thái **Testing**, hãy thêm email Google của bạn vào danh sách test user.
+
+1. Mở phần **Audience** hoặc **Test users**.
+2. Bấm **Add users**.
+3. Thêm email Google dùng để quản lý YouTube channel.
+4. Lưu lại.
+
+Nếu không thêm test user, Google có thể chặn bạn khi thử kết nối.
+
+## Bước 6: Tạo OAuth client ID
+
+1. Mở **APIs & Services**.
+2. Chọn **Credentials** hoặc **Google Auth Platform > Clients**.
+3. Bấm **Create Credentials** hoặc **Create Client**.
+4. Chọn **OAuth client ID**.
+5. Chọn application type là **Web application**.
+6. Nhập tên, ví dụ:
+
+```text
+YupVid YouTube Web Client
+```
+
+## Bước 7: Thêm Authorized redirect URI
+
+Trong phần **Authorized redirect URIs**, bấm **Add URI** và nhập:
+
+```text
+https://yupvid.com/api/platforms/youtube/callback
+```
+
+Sau đó bấm **Create** hoặc **Save**.
+
+Google yêu cầu redirect URI phải khớp chính xác với callback mà ứng dụng sử dụng. Nếu nhập sai URL, bước kết nối YouTube trong YupVid sẽ thất bại.
+
+## Bước 8: Lấy Client ID và Client Secret
+
+Sau khi tạo OAuth client, Google sẽ hiển thị:
+
+- **Client ID**
+- **Client Secret**
+
+Hãy copy 2 giá trị này để nhập vào phần cấu hình YouTube trong YupVid.
+
+Không chia sẻ **Client Secret** công khai. Đây là thông tin nhạy cảm của app.
+
+## Bước 9: Nhập credentials vào YupVid
+
+1. Quay lại YupVid.
+2. Mở **Platforms**.
+3. Chọn **YouTube Short**.
+4. Nhập **Client ID**.
+5. Nhập **Client Secret**.
+6. Lưu cấu hình.
+7. Bấm kết nối YouTube.
+8. Chọn tài khoản Google quản lý YouTube channel.
+9. Đồng ý cấp quyền upload video.
+
+Sau khi kết nối thành công, YouTube sẽ hiển thị trạng thái **Configured** hoặc số lượng tài khoản đã kết nối.
+
+## Bước 10: Upload video lên YouTube
+
+Sau khi YouTube đã kết nối, bạn có thể chọn tài khoản YouTube trong:
+
+- **Publish to accounts** của Bulk Create.
+- **Publish to accounts** của Article to Video.
+- **Publish to platforms** trong Project.
+
+Khi video đã render xong, bấm **Upload** ở tài khoản YouTube để gửi video lên channel.
+
+## Lưu ý về chế độ private
+
+Theo tài liệu YouTube Data API, video upload từ API project chưa được audit có thể bị giới hạn ở chế độ private.
+
+Vì vậy, sau khi YupVid upload video lên YouTube, video có thể ở trạng thái **private**. Bạn cần vào **YouTube Studio** để kiểm tra và chuyển sang publish nếu muốn công khai.
+
+## Lưu ý về quota
+
+Theo tài liệu YouTube Data API, phương thức upload video `videos.insert` có quota cost là 100 units cho mỗi lần gọi.
+
+Nếu upload nhiều video, hãy theo dõi quota trong Google Cloud project.
+
+## Lỗi thường gặp
+
+| Lỗi | Cách xử lý |
+| --- | --- |
+| Redirect URI mismatch | Kiểm tra callback URL có đúng `https://yupvid.com/api/platforms/youtube/callback` không |
+| Access blocked | Kiểm tra OAuth consent screen và test user |
+| API not enabled | Bật **YouTube Data API v3** trong đúng project |
+| Không thấy channel | Kiểm tra tài khoản Google có quyền quản lý channel không |
+| Upload xong nhưng chưa public | Vào **YouTube Studio** để chuyển video khỏi private |
+
+## Tài liệu tham khảo
+
+- [Create access credentials](https://developers.google.com/workspace/guides/create-credentials)
+- [Using OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server)
+- [YouTube Data API videos.insert](https://developers.google.com/youtube/v3/docs/videos/insert)
+- [Upload a Video](https://developers.google.com/youtube/v3/guides/uploading_a_video)
