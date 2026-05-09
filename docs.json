@@ -16,7 +16,11 @@
     "timestamp": true
   },
   "contextual": {
-    "options": ["copy", "view", "assistant"]
+    "options": [
+      "copy",
+      "view",
+      "assistant"
+    ]
   },
   "navigation": {
     "languages": [
@@ -60,6 +64,13 @@
               "platforms/instagram-developer",
               "platforms/tiktok"
             ]
+          },
+          {
+            "group": "Changelogs",
+            "icon": "sparkles",
+            "pages": [
+              "changelogs/may_09_2026"
+            ]
           }
         ]
       },
@@ -101,6 +112,13 @@
               "vi/platforms/youtube-developer",
               "vi/platforms/instagram-developer",
               "vi/platforms/tiktok"
+            ]
+          },
+          {
+            "group": "Changelogs",
+            "icon": "sparkles",
+            "pages": [
+              "vi/changelogs/may_09_2026"
             ]
           }
         ]
